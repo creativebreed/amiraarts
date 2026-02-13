@@ -1,0 +1,1953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AmiraArts - London's Premier Art Workshop & Gallery Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/framer-motion@11.0.8/dist/framer-motion.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'amira-pink': '#D4145A',
+                        'amira-dark': '#1A1A1A',
+                        'amira-light': '#FCFCFC'
+                    },
+                    fontFamily: {
+                        'serif': ['Playfair Display', 'serif'],
+                        'sans': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FCFCFC;
+            color: #1A1A1A;
+            overflow-x: hidden;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .gradient-overlay {
+            background: linear-gradient(135deg, rgba(212, 20, 90, 0.95) 0%, rgba(26, 26, 26, 0.85) 100%);
+        }
+
+        .card-hover {
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(212, 20, 90, 0.25);
+        }
+
+        .btn-primary {
+            background: #D4145A;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: #1A1A1A;
+            transform: scale(1.02);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #D4145A 0%, #b01048 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .image-overlay {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-overlay img {
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .image-overlay:hover img {
+            transform: scale(1.1);
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .status-available {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+
+        .status-sold {
+            background: rgba(156, 163, 175, 0.1);
+            color: #6b7280;
+        }
+
+        .status-featured {
+            background: rgba(212, 20, 90, 0.1);
+            color: #D4145A;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .animate-slide-up {
+            animation: slideInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-slide-left {
+            animation: slideInLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-slide-right {
+            animation: slideInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-scale-in {
+            animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-300 {
+            animation-delay: 0.3s;
+        }
+
+        .delay-400 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-500 {
+            animation-delay: 0.5s;
+        }
+
+        .delay-600 {
+            animation-delay: 0.6s;
+        }
+
+        .initial-hidden {
+            opacity: 0;
+        }
+
+        .parallax-slow {
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .hover-lift {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-12px);
+        }
+
+        .hover-scale {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .stagger-item.visible {
+            animation: slideInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- App Container -->
+    <div id="app" class="min-h-screen flex flex-col">
+        <!-- Navigation -->
+        <nav id="navbar" class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-20">
+                    <!-- Logo -->
+                    <div class="flex items-center cursor-pointer" onclick="navigateTo('home')">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='rose-gradient' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23D4145A;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23b01048;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M100 150 Q70 130 60 100 Q60 70 80 60 Q90 55 100 60 Q110 55 120 60 Q140 70 140 100 Q130 130 100 150 Z' fill='url(%23rose-gradient)' stroke='%231A1A1A' stroke-width='2'/%3E%3Cpath d='M80 85 Q85 75 95 80' fill='none' stroke='%231A1A1A' stroke-width='1.5'/%3E%3Cpath d='M120 85 Q115 75 105 80' fill='none' stroke='%231A1A1A' stroke-width='1.5'/%3E%3Cpath d='M55 120 L45 140 L50 145 L60 130' fill='%2310b981' stroke='%231A1A1A' stroke-width='1.5'/%3E%3Cpath d='M145 120 L155 140 L150 145 L140 130' fill='%2310b981' stroke='%231A1A1A' stroke-width='1.5'/%3E%3Ctext x='100' y='180' font-family='Playfair Display, serif' font-size='20' font-weight='700' text-anchor='middle' fill='%23D4145A'%3EAmira%3C/text%3E%3C/svg%3E" alt="AmiraArts Logo" class="h-12 w-12">
+                        <span class="ml-3 text-2xl font-serif font-bold text-amira-pink">AmiraArts</span>
+                    </div>
+
+                    <!-- Desktop Navigation -->
+                    <div class="hidden md:flex items-center gap-10">
+                        <button onclick="navigateTo('home')" class="text-xs uppercase tracking-widest font-bold transition-colors hover:text-amira-pink nav-link" data-page="home">Home</button>
+                        <button onclick="navigateTo('workshops')" class="text-xs uppercase tracking-widest font-bold transition-colors hover:text-amira-pink nav-link" data-page="workshops">Workshops</button>
+                        <button onclick="navigateTo('gallery')" class="text-xs uppercase tracking-widest font-bold transition-colors hover:text-amira-pink nav-link" data-page="gallery">Gallery</button>
+                        <button onclick="navigateTo('about')" class="text-xs uppercase tracking-widest font-bold transition-colors hover:text-amira-pink nav-link" data-page="about">About</button>
+                    </div>
+
+                    <!-- Auth Buttons -->
+                    <div class="hidden md:flex items-center gap-4">
+                        <div id="auth-buttons-logged-out">
+                            <button onclick="openAuthModal('signin')" class="px-6 py-2.5 bg-amira-pink text-white text-xs font-bold uppercase tracking-widest rounded shadow-xl hover:bg-amira-dark transition-all">
+                                Join the Collective
+                            </button>
+                        </div>
+                        <div id="auth-buttons-logged-in" class="hidden flex items-center gap-4">
+                            <button onclick="navigateTo('dashboard')" class="flex items-center gap-2 px-5 py-2.5 bg-amira-dark text-white text-xs font-bold uppercase tracking-widest rounded hover:bg-amira-pink transition-all">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                                </svg>
+                                Dashboard
+                            </button>
+                            <button onclick="logout()" class="text-gray-400 hover:text-amira-pink transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" class="md:hidden p-2 text-amira-dark">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 bg-white">
+                <div class="p-4 flex flex-col gap-2">
+                    <button onclick="navigateTo('home')" class="text-left px-4 py-3 text-sm font-bold uppercase tracking-widest text-gray-500 hover:text-amira-pink">Home</button>
+                    <button onclick="navigateTo('workshops')" class="text-left px-4 py-3 text-sm font-bold uppercase tracking-widest text-gray-500 hover:text-amira-pink">Workshops</button>
+                    <button onclick="navigateTo('gallery')" class="text-left px-4 py-3 text-sm font-bold uppercase tracking-widest text-gray-500 hover:text-amira-pink">Gallery</button>
+                    <button onclick="navigateTo('about')" class="text-left px-4 py-3 text-sm font-bold uppercase tracking-widest text-gray-500 hover:text-amira-pink">About</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main id="main-content" class="flex-grow">
+            <!-- Content will be dynamically inserted here -->
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-amira-dark text-white py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-16 text-center md:text-left">
+                    <div class="col-span-1 md:col-span-2">
+                        <div class="flex items-center justify-center md:justify-start mb-6">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M100 150 Q70 130 60 100 Q60 70 80 60 Q90 55 100 60 Q110 55 120 60 Q140 70 140 100 Q130 130 100 150 Z' fill='%23ffffff' stroke='%23D4145A' stroke-width='2'/%3E%3Cpath d='M55 120 L45 140 L50 145 L60 130' fill='%2310b981' stroke='%23D4145A' stroke-width='1.5'/%3E%3Cpath d='M145 120 L155 140 L150 145 L140 130' fill='%2310b981' stroke='%23D4145A' stroke-width='1.5'/%3E%3C/svg%3E" alt="AmiraArts" class="h-16 w-16">
+                        </div>
+                        <p class="text-gray-400 leading-relaxed max-w-sm mx-auto md:mx-0">
+                            Preserving classical mastery while fostering the future of London's art scene. A sanctuary for artistic excellence and education.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-6 uppercase tracking-widest text-xs text-amira-pink">Directory</h4>
+                        <ul class="space-y-4 text-sm font-bold uppercase tracking-widest text-gray-500">
+                            <li><button onclick="navigateTo('workshops')" class="hover:text-amira-pink transition-colors">Workshops</button></li>
+                            <li><button onclick="navigateTo('gallery')" class="hover:text-amira-pink transition-colors">Gallery</button></li>
+                            <li><button onclick="navigateTo('about')" class="hover:text-amira-pink transition-colors">About</button></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-6 uppercase tracking-widest text-xs text-amira-pink">Connect</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            14 Artisan Square, Shoreditch<br>
+                            London EC2A 3PR<br><br>
+                            hello@amiraarts.co.uk
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-16 pt-8 border-t border-gray-800 text-center text-sm text-gray-500">
+                    <p>&copy; 2026 AmiraArts. Expanding worldwide from London.</p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Toast Notifications -->
+        <div id="toast-container" class="fixed top-24 right-4 z-50 space-y-2"></div>
+
+        <!-- Auth Modal -->
+        <div id="auth-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+            <div class="bg-white rounded-lg shadow-2xl max-w-md w-full p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 id="auth-modal-title" class="text-2xl font-bold font-serif">Join AmiraArts</h2>
+                    <button onclick="closeAuthModal()" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Sign In Form -->
+                <form id="signin-form" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold uppercase tracking-widest text-gray-600 mb-2">Email</label>
+                        <input type="email" id="signin-email" class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-amira-pink" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold uppercase tracking-widest text-gray-600 mb-2">Password</label>
+                        <input type="password" id="signin-password" class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-amira-pink" required>
+                    </div>
+                    <button type="submit" class="w-full py-4 bg-amira-pink text-white text-xs font-bold uppercase tracking-widest rounded hover:bg-amira-dark transition-all">
+                        Sign In
+                    </button>
+                    <p class="text-center text-sm text-gray-600">
+                        Don't have an account? 
+                        <button type="button" onclick="switchAuthMode('signup')" class="text-amira-pink font-bold hover:underline">Sign Up</button>
+                    </p>
+                </form>
+
+                <!-- Sign Up Form -->
+                <form id="signup-form" class="hidden space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold uppercase tracking-widest text-gray-600 mb-2">Name</label>
+                        <input type="text" id="signup-name" class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-amira-pink" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold uppercase tracking-widest text-gray-600 mb-2">Email</label>
+                        <input type="email" id="signup-email" class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-amira-pink" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold uppercase tracking-widest text-gray-600 mb-2">Password</label>
+                        <input type="password" id="signup-password" class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-amira-pink" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold uppercase tracking-widest text-gray-600 mb-2">I am a...</label>
+                        <select id="signup-role" class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-amira-pink">
+                            <option value="customer">Art Enthusiast / Student</option>
+                            <option value="artist">Teacher / Artist</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="w-full py-4 bg-amira-pink text-white text-xs font-bold uppercase tracking-widest rounded hover:bg-amira-dark transition-all">
+                        Create Account
+                    </button>
+                    <p class="text-center text-sm text-gray-600">
+                        Already have an account? 
+                        <button type="button" onclick="switchAuthMode('signin')" class="text-amira-pink font-bold hover:underline">Sign In</button>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // STATE MANAGEMENT
+        // ============================================
+        let state = {
+            currentUser: null,
+            currentPage: 'home',
+            workshops: [],
+            products: [],
+            bookings: [],
+            users: []
+        };
+
+        // ============================================
+        // UNSPLASH IMAGE COLLECTIONS
+        // ============================================
+        const unsplashImages = {
+            abstract: [
+                'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800',
+                'https://images.unsplash.com/photo-1549887534-1541e9326642?w=800',
+                'https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=800',
+                'https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=800',
+                'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800',
+                'https://images.unsplash.com/photo-1574096079513-d8259312b785?w=800'
+            ],
+            painting: [
+                'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800',
+                'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800',
+                'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800',
+                'https://images.unsplash.com/photo-1579541814924-49fef17c5be5?w=800',
+                'https://images.unsplash.com/photo-1578301978018-3005759f48f7?w=800',
+                'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800'
+            ],
+            drawing: [
+                'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800',
+                'https://images.unsplash.com/photo-1596548438137-d51ea5c83030?w=800',
+                'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=800',
+                'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800',
+                'https://images.unsplash.com/photo-1604871000636-074fa5117945?w=800',
+                'https://images.unsplash.com/photo-1515378960530-7c0da6231fb1?w=800'
+            ],
+            hero: [
+                'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=1600',
+                'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=1600'
+            ]
+        };
+
+        // ============================================
+        // INITIAL DATA
+        // ============================================
+        function initializeData() {
+            // Load from localStorage or create default data
+            const savedUsers = localStorage.getItem('amiraarts_users');
+            const savedWorkshops = localStorage.getItem('amiraarts_workshops');
+            const savedProducts = localStorage.getItem('amiraarts_products');
+            const savedBookings = localStorage.getItem('amiraarts_bookings');
+
+            if (savedUsers) {
+                state.users = JSON.parse(savedUsers);
+            } else {
+                state.users = [
+                    {
+                        id: 'u1',
+                        name: 'Admin User',
+                        email: 'admin@amiraarts.com',
+                        password: 'admin123',
+                        role: 'admin',
+                        bio: 'Gallery curator and administrator'
+                    },
+                    {
+                        id: 'u2',
+                        name: 'Elzbieta Penderecka',
+                        email: 'elzbieta@amiraarts.com',
+                        password: 'artist123',
+                        role: 'artist',
+                        bio: 'Master oil painter with 20+ years teaching experience',
+                        avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400'
+                    },
+                    {
+                        id: 'u3',
+                        name: 'James Mitchell',
+                        email: 'james@amiraarts.com',
+                        password: 'artist123',
+                        role: 'artist',
+                        bio: 'Contemporary abstract artist and workshop facilitator',
+                        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400'
+                    }
+                ];
+                saveUsers();
+            }
+
+            if (savedWorkshops) {
+                state.workshops = JSON.parse(savedWorkshops);
+            } else {
+                state.workshops = [
+                    {
+                        id: 'w1',
+                        title: 'Oil Painting Fundamentals',
+                        artistId: 'u2',
+                        artistName: 'Elzbieta Penderecka',
+                        price: 85,
+                        date: '2026-03-15',
+                        time: '10:00 AM - 4:00 PM',
+                        capacity: 12,
+                        booked: 7,
+                        image: unsplashImages.painting[0],
+                        description: 'Master the foundations of oil painting technique',
+                        longDescription: 'Learn traditional oil painting methods including color mixing, brush techniques, and composition. Perfect for beginners and those looking to refine their skills.',
+                        category: 'Painting',
+                        location: 'Shoreditch Studio',
+                        isBoosted: true
+                    },
+                    {
+                        id: 'w2',
+                        title: 'Abstract Expression Workshop',
+                        artistId: 'u3',
+                        artistName: 'James Mitchell',
+                        price: 95,
+                        date: '2026-03-22',
+                        time: '2:00 PM - 6:00 PM',
+                        capacity: 10,
+                        booked: 4,
+                        image: unsplashImages.abstract[0],
+                        description: 'Explore contemporary abstract painting techniques',
+                        longDescription: 'Dive into modern abstract methods, learn to express emotion through color and form. All materials provided.',
+                        category: 'Painting',
+                        location: 'Shoreditch Studio'
+                    },
+                    {
+                        id: 'w3',
+                        title: 'Portrait Drawing Intensive',
+                        artistId: 'u2',
+                        artistName: 'Elzbieta Penderecka',
+                        price: 75,
+                        date: '2026-04-05',
+                        time: '11:00 AM - 3:00 PM',
+                        capacity: 15,
+                        booked: 12,
+                        image: unsplashImages.drawing[0],
+                        description: 'Advanced portrait drawing from live models',
+                        longDescription: 'Work with professional models to develop your portrait drawing skills. Focus on anatomy, proportion, and capturing likeness.',
+                        category: 'Drawing',
+                        location: 'Shoreditch Studio'
+                    },
+                    {
+                        id: 'w4',
+                        title: 'Watercolor Landscapes',
+                        artistId: 'u3',
+                        artistName: 'James Mitchell',
+                        price: 80,
+                        date: '2026-04-12',
+                        time: '10:00 AM - 2:00 PM',
+                        capacity: 10,
+                        booked: 3,
+                        image: unsplashImages.painting[1],
+                        description: 'Create stunning watercolor landscapes',
+                        longDescription: 'Learn watercolor techniques specific to landscape painting. We will cover wet-on-wet, wet-on-dry, and layering methods.',
+                        category: 'Painting',
+                        location: 'Shoreditch Studio',
+                        isBoosted: true
+                    },
+                    {
+                        id: 'w5',
+                        title: 'Life Drawing Sessions',
+                        artistId: 'u2',
+                        artistName: 'Elzbieta Penderecka',
+                        price: 45,
+                        date: '2026-04-19',
+                        time: '7:00 PM - 9:00 PM',
+                        capacity: 20,
+                        booked: 15,
+                        image: unsplashImages.drawing[1],
+                        description: 'Weekly life drawing with professional models',
+                        longDescription: 'Join our weekly life drawing sessions. All skill levels welcome. Materials provided or bring your own.',
+                        category: 'Drawing',
+                        location: 'Shoreditch Studio'
+                    },
+                    {
+                        id: 'w6',
+                        title: 'Mixed Media Collage',
+                        artistId: 'u3',
+                        artistName: 'James Mitchell',
+                        price: 70,
+                        date: '2026-04-26',
+                        time: '1:00 PM - 5:00 PM',
+                        capacity: 12,
+                        booked: 2,
+                        image: unsplashImages.abstract[1],
+                        description: 'Experimental mixed media techniques',
+                        longDescription: 'Explore collage, assemblage, and mixed media. Bring found objects and experiment with unconventional materials.',
+                        category: 'Painting',
+                        location: 'Shoreditch Studio'
+                    }
+                ];
+                saveWorkshops();
+            }
+
+            if (savedProducts) {
+                state.products = JSON.parse(savedProducts);
+            } else {
+                state.products = [
+                    {
+                        id: 'p1',
+                        title: 'Crimson Dawn',
+                        artistId: 'u2',
+                        artistName: 'Elzbieta Penderecka',
+                        price: 1200,
+                        image: unsplashImages.abstract[2],
+                        category: 'Abstract',
+                        status: 'available',
+                        description: 'Original oil on canvas, 60x80cm',
+                        isBoosted: true
+                    },
+                    {
+                        id: 'p2',
+                        title: 'Urban Rhythms',
+                        artistId: 'u3',
+                        artistName: 'James Mitchell',
+                        price: 850,
+                        image: unsplashImages.abstract[3],
+                        category: 'Abstract',
+                        status: 'available',
+                        description: 'Acrylic on canvas, 70x70cm'
+                    },
+                    {
+                        id: 'p3',
+                        title: 'Portrait Study #7',
+                        artistId: 'u2',
+                        artistName: 'Elzbieta Penderecka',
+                        price: 650,
+                        image: unsplashImages.drawing[2],
+                        category: 'Drawing',
+                        status: 'sold',
+                        description: 'Charcoal on paper, 50x70cm'
+                    },
+                    {
+                        id: 'p4',
+                        title: 'Serenity Landscape',
+                        artistId: 'u3',
+                        artistName: 'James Mitchell',
+                        price: 980,
+                        image: unsplashImages.painting[2],
+                        category: 'Painting',
+                        status: 'available',
+                        description: 'Oil on canvas, 80x100cm',
+                        isBoosted: true
+                    },
+                    {
+                        id: 'p5',
+                        title: 'Geometric Harmony',
+                        artistId: 'u2',
+                        artistName: 'Elzbieta Penderecka',
+                        price: 720,
+                        image: unsplashImages.abstract[4],
+                        category: 'Abstract',
+                        status: 'available',
+                        description: 'Mixed media on panel, 60x60cm'
+                    },
+                    {
+                        id: 'p6',
+                        title: 'Botanical Study',
+                        artistId: 'u3',
+                        artistName: 'James Mitchell',
+                        price: 540,
+                        image: unsplashImages.drawing[3],
+                        category: 'Drawing',
+                        status: 'available',
+                        description: 'Ink and watercolor, 40x60cm'
+                    },
+                    {
+                        id: 'p7',
+                        title: 'Midnight Reflections',
+                        artistId: 'u2',
+                        artistName: 'Elzbieta Penderecka',
+                        price: 1450,
+                        image: unsplashImages.painting[3],
+                        category: 'Painting',
+                        status: 'available',
+                        description: 'Oil on canvas, 90x120cm'
+                    },
+                    {
+                        id: 'p8',
+                        title: 'Color Theory #12',
+                        artistId: 'u3',
+                        artistName: 'James Mitchell',
+                        price: 890,
+                        image: unsplashImages.abstract[5],
+                        category: 'Abstract',
+                        status: 'available',
+                        description: 'Acrylic on canvas, 75x75cm'
+                    }
+                ];
+                saveProducts();
+            }
+
+            if (savedBookings) {
+                state.bookings = JSON.parse(savedBookings);
+            } else {
+                state.bookings = [];
+                saveBookings();
+            }
+
+            // Check for logged in user
+            const savedSession = sessionStorage.getItem('amiraarts_session');
+            if (savedSession) {
+                state.currentUser = JSON.parse(savedSession);
+                updateAuthUI();
+            }
+        }
+
+        // ============================================
+        // STORAGE FUNCTIONS
+        // ============================================
+        function saveUsers() {
+            localStorage.setItem('amiraarts_users', JSON.stringify(state.users));
+        }
+
+        function saveWorkshops() {
+            localStorage.setItem('amiraarts_workshops', JSON.stringify(state.workshops));
+        }
+
+        function saveProducts() {
+            localStorage.setItem('amiraarts_products', JSON.stringify(state.products));
+        }
+
+        function saveBookings() {
+            localStorage.setItem('amiraarts_bookings', JSON.stringify(state.bookings));
+        }
+
+        // ============================================
+        // NAVIGATION
+        // ============================================
+        function navigateTo(page) {
+            state.currentPage = page;
+            
+            // Update nav highlighting
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('text-amira-pink');
+                link.classList.add('text-gray-400');
+            });
+            const activeLink = document.querySelector(`[data-page="${page}"]`);
+            if (activeLink) {
+                activeLink.classList.add('text-amira-pink');
+                activeLink.classList.remove('text-gray-400');
+            }
+
+            // Close mobile menu
+            document.getElementById('mobile-menu').classList.add('hidden');
+
+            // Render page
+            renderPage();
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ============================================
+        // PAGE RENDERING
+        // ============================================
+        function renderPage() {
+            const mainContent = document.getElementById('main-content');
+            
+            switch(state.currentPage) {
+                case 'home':
+                    renderHomePage(mainContent);
+                    break;
+                case 'workshops':
+                    renderWorkshopsPage(mainContent);
+                    break;
+                case 'gallery':
+                    renderGalleryPage(mainContent);
+                    break;
+                case 'about':
+                    renderAboutPage(mainContent);
+                    break;
+                case 'dashboard':
+                    renderDashboard(mainContent);
+                    break;
+                case 'workshop-detail':
+                    renderWorkshopDetail(mainContent);
+                    break;
+                case 'product-detail':
+                    renderProductDetail(mainContent);
+                    break;
+                default:
+                    renderHomePage(mainContent);
+            }
+        }
+
+        function renderHomePage(container) {
+            const heroImage = unsplashImages.hero[Math.floor(Math.random() * unsplashImages.hero.length)];
+            const abstractHeroImages = [
+                unsplashImages.abstract[0],
+                unsplashImages.abstract[1],
+                unsplashImages.abstract[2],
+                unsplashImages.abstract[3]
+            ];
+            
+            container.innerHTML = `
+                <!-- Hero Section with Animated Abstract Images -->
+                <section class="relative h-[90vh] overflow-hidden flex items-center">
+                    <img src="${heroImage}" class="absolute inset-0 w-full h-full object-cover grayscale-[20%]" alt="Art background">
+                    <div class="absolute inset-0 gradient-overlay"></div>
+                    
+                    <!-- Floating Abstract Art Elements -->
+                    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+                        <div class="absolute top-20 right-[10%] w-32 h-32 opacity-20 animate-fade-in delay-300 float-animation">
+                            <img src="${abstractHeroImages[0]}" class="w-full h-full object-cover rounded-lg transform rotate-12" alt="Abstract art">
+                        </div>
+                        <div class="absolute bottom-32 left-[15%] w-40 h-40 opacity-15 animate-fade-in delay-500 float-animation" style="animation-delay: 1s;">
+                            <img src="${abstractHeroImages[1]}" class="w-full h-full object-cover rounded-lg transform -rotate-6" alt="Abstract art">
+                        </div>
+                        <div class="absolute top-1/3 right-[25%] w-24 h-24 opacity-10 animate-fade-in delay-600 float-animation" style="animation-delay: 1.5s;">
+                            <img src="${abstractHeroImages[2]}" class="w-full h-full object-cover rounded-full" alt="Abstract art">
+                        </div>
+                    </div>
+                    
+                    <div class="relative max-w-7xl mx-auto px-6 w-full z-10">
+                        <div class="max-w-2xl">
+                            <h1 class="text-6xl md:text-8xl text-white font-bold mb-8 leading-tight tracking-tight font-serif initial-hidden animate-slide-up">
+                                Master<br>the Canvas.
+                            </h1>
+                            <p class="text-xl text-white/80 mb-12 font-light leading-relaxed initial-hidden animate-slide-up delay-200">
+                                London's premiere boutique studio for fine art education and original curation. Expanding worldwide.
+                            </p>
+                            <div class="flex flex-col sm:flex-row gap-5 initial-hidden animate-slide-up delay-300">
+                                <button onclick="navigateTo('workshops')" class="px-10 py-4 bg-white text-amira-dark text-xs uppercase tracking-widest font-bold rounded hover:bg-gray-100 transition-all flex items-center justify-center gap-2 hover-lift">
+                                    Explore Workshops
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </button>
+                                <button onclick="navigateTo('gallery')" class="px-10 py-4 bg-amira-pink text-white text-xs uppercase tracking-widest font-bold rounded hover:bg-opacity-90 transition-all shadow-xl hover-lift">
+                                    The Collection
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Animated Stats Bar -->
+                <section class="bg-amira-dark text-white py-12 border-b border-gray-800">
+                    <div class="max-w-7xl mx-auto px-6">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                            <div class="initial-hidden animate-scale-in delay-100">
+                                <div class="text-4xl font-bold text-amira-pink mb-2">${state.workshops.length}+</div>
+                                <div class="text-sm uppercase tracking-widest text-gray-400">Active Workshops</div>
+                            </div>
+                            <div class="initial-hidden animate-scale-in delay-200">
+                                <div class="text-4xl font-bold text-amira-pink mb-2">${state.users.filter(u => u.role === 'artist').length}</div>
+                                <div class="text-sm uppercase tracking-widest text-gray-400">Master Teachers</div>
+                            </div>
+                            <div class="initial-hidden animate-scale-in delay-300">
+                                <div class="text-4xl font-bold text-amira-pink mb-2">${state.products.length}+</div>
+                                <div class="text-sm uppercase tracking-widest text-gray-400">Original Artworks</div>
+                            </div>
+                            <div class="initial-hidden animate-scale-in delay-400">
+                                <div class="text-4xl font-bold text-amira-pink mb-2">10+</div>
+                                <div class="text-sm uppercase tracking-widest text-gray-400">Years Experience</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Featured Workshops Section -->
+                <section class="max-w-7xl mx-auto px-6 py-32">
+                    <div class="mb-16 initial-hidden animate-slide-up">
+                        <h2 class="text-5xl font-bold tracking-tighter mb-4 font-serif">Upcoming Masterclasses</h2>
+                        <p class="text-gray-500 max-w-xl">Deep dive into specific techniques with London's finest working artists.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                        ${state.workshops.slice(0, 3).map((workshop, index) => `
+                            <div class="stagger-item" style="animation-delay: ${(index + 1) * 0.15}s">
+                                ${createWorkshopCard(workshop)}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="text-center mt-16 initial-hidden animate-fade-in delay-600">
+                        <button onclick="navigateTo('workshops')" class="px-10 py-4 bg-amira-dark text-white text-xs uppercase tracking-widest font-bold rounded hover:bg-amira-pink transition-all hover-lift">
+                            View All Workshops
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Featured Artworks Section -->
+                <section class="bg-gray-50 py-32">
+                    <div class="max-w-7xl mx-auto px-6">
+                        <div class="mb-16 initial-hidden animate-slide-up">
+                            <h2 class="text-5xl font-bold tracking-tighter mb-4 font-serif">The Collection</h2>
+                            <p class="text-gray-500">Original works of art available for purchase from our community.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                            ${state.products.filter(p => p.status === 'available').slice(0, 4).map((product, index) => `
+                                <div class="stagger-item" style="animation-delay: ${(index + 1) * 0.12}s">
+                                    ${createProductCard(product)}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="text-center mt-16 initial-hidden animate-fade-in delay-500">
+                            <button onclick="navigateTo('gallery')" class="px-10 py-4 bg-amira-pink text-white text-xs uppercase tracking-widest font-bold rounded hover:bg-amira-dark transition-all hover-lift">
+                                Explore Gallery
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CTA Section -->
+                <section class="max-w-7xl mx-auto px-6 py-32">
+                    <div class="bg-amira-dark rounded-lg overflow-hidden flex flex-col md:flex-row initial-hidden animate-scale-in">
+                        <div class="flex-1 p-16 flex flex-col justify-center">
+                            <h2 class="text-4xl text-white font-bold mb-4 tracking-tight font-serif">Become a Teacher</h2>
+                            <p class="text-gray-400 mb-10 leading-relaxed">Share your expertise and passion with aspiring artists. Join our collective of master instructors.</p>
+                            <button onclick="${state.currentUser ? "navigateTo('dashboard')" : "openAuthModal('signup')"}" class="px-8 py-4 bg-amira-pink text-white text-xs font-bold uppercase tracking-widest rounded w-fit shadow-xl hover:bg-white hover:text-amira-dark transition-all hover-lift">
+                                Apply to Teach
+                            </button>
+                        </div>
+                        <div class="flex-1 min-h-[300px] image-overlay">
+                            <img src="${unsplashImages.drawing[4]}" class="w-full h-full object-cover" alt="Teaching">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Abstract Gallery Showcase -->
+                <section class="max-w-7xl mx-auto px-6 py-32">
+                    <div class="mb-16 initial-hidden animate-slide-up">
+                        <h2 class="text-5xl font-bold tracking-tighter mb-4 font-serif text-center">Featured Abstract Works</h2>
+                        <p class="text-gray-500 text-center max-w-2xl mx-auto">Explore our curated selection of contemporary abstract art from emerging and established artists.</p>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        ${abstractHeroImages.map((img, index) => `
+                            <div class="stagger-item hover-scale cursor-pointer" style="animation-delay: ${(index + 1) * 0.1}s" onclick="navigateTo('gallery')">
+                                <div class="aspect-square overflow-hidden rounded-lg border-2 border-gray-200 hover:border-amira-pink transition-all">
+                                    <img src="${img}" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" alt="Abstract art">
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="text-center mt-12 initial-hidden animate-fade-in delay-500">
+                        <button onclick="navigateTo('gallery')" class="px-10 py-4 border-2 border-amira-dark text-amira-dark text-xs uppercase tracking-widest font-bold rounded hover:bg-amira-dark hover:text-white transition-all hover-lift">
+                            View Full Collection
+                        </button>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderWorkshopsPage(container) {
+            container.innerHTML = `
+                <div class="max-w-7xl mx-auto px-6 py-20">
+                    <div class="mb-16">
+                        <h2 class="text-5xl font-bold tracking-tighter mb-4 font-serif">Masterclasses</h2>
+                        <p class="text-gray-500 max-w-xl">Deep dive into specific techniques with London's finest working artists.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                        ${state.workshops.map(workshop => createWorkshopCard(workshop)).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderGalleryPage(container) {
+            container.innerHTML = `
+                <div class="max-w-7xl mx-auto px-6 py-20">
+                    <div class="mb-16">
+                        <h2 class="text-5xl font-bold tracking-tighter mb-4 font-serif">The Collection</h2>
+                        <p class="text-gray-500">Original works of art available for purchase from our community.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                        ${state.products.map(product => createProductCard(product)).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderAboutPage(container) {
+            container.innerHTML = `
+                <div class="max-w-4xl mx-auto px-6 py-20">
+                    <h1 class="text-6xl font-bold tracking-tighter mb-8 font-serif">About AmiraArts</h1>
+                    
+                    <div class="prose prose-lg max-w-none">
+                        <p class="text-xl text-gray-600 leading-relaxed mb-8">
+                            AmiraArts is London's premier destination for fine art education and gallery curation, 
+                            located in the heart of Shoreditch's vibrant creative district.
+                        </p>
+
+                        <h2 class="text-3xl font-bold mt-16 mb-6 font-serif">Our Mission</h2>
+                        <p class="text-gray-600 leading-relaxed mb-6">
+                            We preserve classical artistic mastery while fostering contemporary innovation. 
+                            Our studio serves as a sanctuary where traditional techniques meet modern expression, 
+                            creating a unique learning environment for artists at all stages of their journey.
+                        </p>
+
+                        <h2 class="text-3xl font-bold mt-16 mb-6 font-serif">What We Offer</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 my-12">
+                            <div class="p-6 bg-gray-50 rounded-lg">
+                                <h3 class="text-xl font-bold mb-3">Masterclass Workshops</h3>
+                                <p class="text-gray-600">Intensive sessions with master artists covering oil painting, watercolor, life drawing, and contemporary techniques.</p>
+                            </div>
+                            <div class="p-6 bg-gray-50 rounded-lg">
+                                <h3 class="text-xl font-bold mb-3">Gallery Exhibitions</h3>
+                                <p class="text-gray-600">Curated collections featuring works by our resident artists and teachers, available for purchase.</p>
+                            </div>
+                            <div class="p-6 bg-gray-50 rounded-lg">
+                                <h3 class="text-xl font-bold mb-3">Artist Community</h3>
+                                <p class="text-gray-600">A thriving collective of professional artists, educators, and passionate students.</p>
+                            </div>
+                            <div class="p-6 bg-gray-50 rounded-lg">
+                                <h3 class="text-xl font-bold mb-3">Global Expansion</h3>
+                                <p class="text-gray-600">While rooted in London, we're expanding our reach to bring world-class art education worldwide.</p>
+                            </div>
+                        </div>
+
+                        <h2 class="text-3xl font-bold mt-16 mb-6 font-serif">Our Location</h2>
+                        <div class="bg-amira-dark text-white p-8 rounded-lg">
+                            <p class="text-lg mb-2">14 Artisan Square, Shoreditch</p>
+                            <p class="text-lg mb-2">London EC2A 3PR</p>
+                            <p class="text-lg">United Kingdom</p>
+                        </div>
+
+                        <div class="mt-16 text-center">
+                            <button onclick="navigateTo('workshops')" class="px-10 py-4 bg-amira-pink text-white text-xs uppercase tracking-widest font-bold rounded hover:bg-amira-dark transition-all">
+                                Explore Our Workshops
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderDashboard(container) {
+            if (!state.currentUser) {
+                showToast('Please sign in to access your dashboard', 'warning');
+                openAuthModal('signin');
+                navigateTo('home');
+                return;
+            }
+
+            const userBookings = state.bookings.filter(b => b.userId === state.currentUser.id);
+            const userWorkshops = state.workshops.filter(w => w.artistId === state.currentUser.id);
+            const userProducts = state.products.filter(p => p.artistId === state.currentUser.id);
+
+            let dashboardContent = '';
+
+            if (state.currentUser.role === 'customer') {
+                dashboardContent = `
+                    <div class="max-w-7xl mx-auto px-6 py-16">
+                        <div class="mb-12">
+                            <h1 class="text-4xl font-bold tracking-tighter mb-2 font-serif">Welcome back, ${state.currentUser.name}</h1>
+                            <p class="text-gray-500">Your creative journey</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                            <div class="p-8 bg-gradient-to-br from-amira-pink to-pink-600 text-white rounded-lg">
+                                <div class="text-4xl font-bold mb-2">${userBookings.filter(b => b.type === 'workshop').length}</div>
+                                <div class="text-sm uppercase tracking-widest opacity-90">Workshops Booked</div>
+                            </div>
+                            <div class="p-8 bg-gradient-to-br from-amira-dark to-gray-800 text-white rounded-lg">
+                                <div class="text-4xl font-bold mb-2">${userBookings.filter(b => b.type === 'product').length}</div>
+                                <div class="text-sm uppercase tracking-widest opacity-90">Artworks Acquired</div>
+                            </div>
+                            <div class="p-8 bg-gradient-to-br from-emerald-500 to-emerald-600 text-white rounded-lg">
+                                <div class="text-4xl font-bold mb-2">£${userBookings.reduce((sum, b) => sum + b.amount, 0)}</div>
+                                <div class="text-sm uppercase tracking-widest opacity-90">Total Investment</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-12">
+                            <h2 class="text-3xl font-bold tracking-tighter mb-6 font-serif">Your Bookings</h2>
+                            ${userBookings.length > 0 ? `
+                                <div class="space-y-4">
+                                    ${userBookings.map(booking => {
+                                        const item = booking.type === 'workshop' 
+                                            ? state.workshops.find(w => w.id === booking.itemId)
+                                            : state.products.find(p => p.id === booking.itemId);
+                                        
+                                        return `
+                                            <div class="bg-white border border-gray-200 rounded-lg p-6 flex items-center gap-6 hover:shadow-lg transition-all">
+                                                <img src="${item?.image || ''}" class="w-24 h-24 object-cover rounded" alt="${item?.title || 'Item'}">
+                                                <div class="flex-1">
+                                                    <h3 class="text-lg font-bold mb-1">${item?.title || 'Unknown'}</h3>
+                                                    <p class="text-sm text-gray-500">${booking.type === 'workshop' ? `Date: ${item?.date || 'TBA'}` : 'Original Artwork'}</p>
+                                                    <p class="text-xs text-gray-400 mt-2">Booked: ${new Date(booking.timestamp).toLocaleDateString()}</p>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="text-2xl font-bold text-amira-pink">£${booking.amount}</div>
+                                                    <span class="status-badge status-available mt-2">Confirmed</span>
+                                                </div>
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            ` : `
+                                <div class="text-center py-16 bg-gray-50 rounded-lg">
+                                    <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                    <p class="text-gray-500 mb-6">You haven't made any bookings yet</p>
+                                    <button onclick="navigateTo('workshops')" class="px-6 py-3 bg-amira-pink text-white text-xs font-bold uppercase tracking-widest rounded hover:bg-amira-dark transition-all">
+                                        Explore Workshops
+                                    </button>
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                `;
+            } else if (state.currentUser.role === 'artist') {
+                const totalRevenue = state.bookings
+                    .filter(b => {
+                        const item = b.type === 'workshop' 
+                            ? state.workshops.find(w => w.id === b.itemId)
+                            : state.products.find(p => p.id === b.itemId);
+                        return item?.artistId === state.currentUser.id;
+                    })
+                    .reduce((sum, b) => sum + b.amount, 0);
+
+                dashboardContent = `
+                    <div class="max-w-7xl mx-auto px-6 py-16">
+                        <div class="mb-12">
+                            <h1 class="text-4xl font-bold tracking-tighter mb-2 font-serif">Teacher Dashboard</h1>
+                            <p class="text-gray-500">Manage your workshops and gallery listings</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+                            <div class="p-8 bg-gradient-to-br from-amira-pink to-pink-600 text-white rounded-lg">
+                                <div class="text-4xl font-bold mb-2">${userWorkshops.length}</div>
+                                <div class="text-sm uppercase tracking-widest opacity-90">Active Workshops</div>
+                            </div>
+                            <div class="p-8 bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-lg">
+                                <div class="text-4xl font-bold mb-2">${userProducts.length}</div>
+                                <div class="text-sm uppercase tracking-widest opacity-90">Gallery Listings</div>
+                            </div>
+                            <div class="p-8 bg-gradient-to-br from-emerald-500 to-emerald-600 text-white rounded-lg">
+                                <div class="text-4xl font-bold mb-2">${userWorkshops.reduce((sum, w) => sum + w.booked, 0)}</div>
+                                <div class="text-sm uppercase tracking-widest opacity-90">Total Students</div>
+                            </div>
+                            <div class="p-8 bg-gradient-to-br from-amira-dark to-gray-800 text-white rounded-lg">
+                                <div class="text-4xl font-bold mb-2">£${totalRevenue}</div>
+                                <div class="text-sm uppercase tracking-widest opacity-90">Total Revenue</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-12">
+                            <div class="flex items-center justify-between mb-6">
+                                <h2 class="text-3xl font-bold tracking-tighter font-serif">Your Workshops</h2>
+                                <button onclick="createNewWorkshop()" class="px-6 py-3 bg-amira-pink text-white text-xs font-bold uppercase tracking-widest rounded hover:bg-amira-dark transition-all">
+                                    <span class="flex items-center gap-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                        </svg>
+                                        Create Workshop
+                                    </span>
+                                </button>
+                            </div>
+                            ${userWorkshops.length > 0 ? `
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    ${userWorkshops.map(workshop => `
+                                        <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-all">
+                                            <img src="${workshop.image}" class="w-full h-48 object-cover" alt="${workshop.title}">
+                                            <div class="p-6">
+                                                <h3 class="text-lg font-bold mb-2">${workshop.title}</h3>
+                                                <p class="text-sm text-gray-500 mb-4">${workshop.date} • ${workshop.time}</p>
+                                                <div class="flex items-center justify-between mb-4">
+                                                    <span class="text-xl font-bold text-amira-pink">£${workshop.price}</span>
+                                                    <span class="text-sm font-bold">${workshop.booked}/${workshop.capacity} booked</span>
+                                                </div>
+                                                <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+                                                    <div class="bg-amira-pink h-2 rounded-full" style="width: ${(workshop.booked / workshop.capacity) * 100}%"></div>
+                                                </div>
+                                                <button onclick="editWorkshop('${workshop.id}')" class="w-full py-2 border border-amira-dark text-amira-dark rounded hover:bg-amira-dark hover:text-white transition-all text-xs font-bold uppercase tracking-widest">
+                                                    Manage Workshop
+                                                </button>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : `
+                                <div class="text-center py-16 bg-gray-50 rounded-lg">
+                                    <p class="text-gray-500 mb-6">You haven't created any workshops yet</p>
+                                    <button onclick="createNewWorkshop()" class="px-8 py-4 bg-amira-pink text-white text-xs font-bold uppercase tracking-widest rounded hover:bg-amira-dark transition-all">
+                                        Create Your First Workshop
+                                    </button>
+                                </div>
+                            `}
+                        </div>
+
+                        <div class="mb-12">
+                            <div class="flex items-center justify-between mb-6">
+                                <h2 class="text-3xl font-bold tracking-tighter font-serif">Your Gallery</h2>
+                                <button onclick="createNewProduct()" class="px-6 py-3 bg-amira-dark text-white text-xs font-bold uppercase tracking-widest rounded hover:bg-amira-pink transition-all">
+                                    <span class="flex items-center gap-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                        </svg>
+                                        Add Artwork
+                                    </span>
+                                </button>
+                            </div>
+                            ${userProducts.length > 0 ? `
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                                    ${userProducts.map(product => `
+                                        <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-all">
+                                            <img src="${product.image}" class="w-full h-48 object-cover" alt="${product.title}">
+                                            <div class="p-4">
+                                                <h3 class="text-lg font-bold mb-1">${product.title}</h3>
+                                                <p class="text-xs text-gray-500 mb-3">${product.category}</p>
+                                                <div class="flex items-center justify-between mb-3">
+                                                    <span class="text-lg font-bold text-amira-pink">£${product.price}</span>
+                                                    <span class="status-badge ${product.status === 'available' ? 'status-available' : 'status-sold'}">
+                                                        ${product.status}
+                                                    </span>
+                                                </div>
+                                                <button onclick="editProduct('${product.id}')" class="w-full py-2 border border-amira-dark text-amira-dark rounded hover:bg-amira-dark hover:text-white transition-all text-xs font-bold uppercase tracking-widest">
+                                                    Edit
+                                                </button>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : `
+                                <div class="text-center py-16 bg-gray-50 rounded-lg">
+                                    <p class="text-gray-500 mb-6">You haven't added any artworks yet</p>
+                                    <button onclick="createNewProduct()" class="px-8 py-4 bg-amira-dark text-white text-xs font-bold uppercase tracking-widest rounded hover:bg-amira-pink transition-all">
+                                        Add Your First Artwork
+                                    </button>
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                `;
+            } else if (state.currentUser.role === 'admin') {
+                dashboardContent = `
+                    <div class="max-w-7xl mx-auto px-6 py-16">
+                        <div class="mb-12">
+                            <h1 class="text-4xl font-bold tracking-tighter mb-2 font-serif">Admin Dashboard</h1>
+                            <p class="text-gray-500">Platform overview and management</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+                            <div class="p-8 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-lg">
+                                <div class="text-4xl font-bold mb-2">${state.users.length}</div>
+                                <div class="text-sm uppercase tracking-widest opacity-90">Total Users</div>
+                            </div>
+                            <div class="p-8 bg-gradient-to-br from-amira-pink to-pink-600 text-white rounded-lg">
+                                <div class="text-4xl font-bold mb-2">${state.workshops.length}</div>
+                                <div class="text-sm uppercase tracking-widest opacity-90">Active Workshops</div>
+                            </div>
+                            <div class="p-8 bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-lg">
+                                <div class="text-4xl font-bold mb-2">${state.products.length}</div>
+                                <div class="text-sm uppercase tracking-widest opacity-90">Gallery Items</div>
+                            </div>
+                            <div class="p-8 bg-gradient-to-br from-emerald-500 to-emerald-600 text-white rounded-lg">
+                                <div class="text-4xl font-bold mb-2">${state.bookings.length}</div>
+                                <div class="text-sm uppercase tracking-widest opacity-90">Total Bookings</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-gray-200 rounded-lg p-8">
+                            <h2 class="text-2xl font-bold mb-6 font-serif">Platform Statistics</h2>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center py-3 border-b border-gray-100">
+                                    <span class="text-gray-600">Total Teachers</span>
+                                    <span class="font-bold">${state.users.filter(u => u.role === 'artist').length}</span>
+                                </div>
+                                <div class="flex justify-between items-center py-3 border-b border-gray-100">
+                                    <span class="text-gray-600">Total Students</span>
+                                    <span class="font-bold">${state.users.filter(u => u.role === 'customer').length}</span>
+                                </div>
+                                <div class="flex justify-between items-center py-3 border-b border-gray-100">
+                                    <span class="text-gray-600">Available Artworks</span>
+                                    <span class="font-bold">${state.products.filter(p => p.status === 'available').length}</span>
+                                </div>
+                                <div class="flex justify-between items-center py-3 border-b border-gray-100">
+                                    <span class="text-gray-600">Sold Artworks</span>
+                                    <span class="font-bold">${state.products.filter(p => p.status === 'sold').length}</span>
+                                </div>
+                                <div class="flex justify-between items-center py-3">
+                                    <span class="text-gray-600">Total Revenue</span>
+                                    <span class="font-bold text-xl text-amira-pink">£${state.bookings.reduce((sum, b) => sum + b.amount, 0)}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = dashboardContent;
+        }
+
+        // ============================================
+        // CARD COMPONENTS
+        // ============================================
+        function createWorkshopCard(workshop) {
+            const isOwn = state.currentUser?.id === workshop.artistId;
+            const isFull = workshop.booked >= workshop.capacity;
+            
+            return `
+                <div class="card-hover hover-lift bg-white border border-gray-200 rounded overflow-hidden">
+                    <div class="h-72 relative overflow-hidden cursor-pointer" onclick="viewWorkshopDetail('${workshop.id}')">
+                        <img src="${workshop.image}" class="w-full h-full object-cover" alt="${workshop.title}">
+                        <div class="absolute top-6 left-6 flex flex-col gap-2">
+                            <span class="px-4 py-1.5 bg-white/95 backdrop-blur-md text-amira-pink text-xs font-bold uppercase tracking-wider rounded-sm shadow-sm">
+                                ${workshop.category}
+                            </span>
+                            ${workshop.isBoosted ? `
+                                <span class="px-3 py-1 bg-amira-pink text-white text-xs font-bold uppercase tracking-wider rounded-sm shadow-lg flex items-center gap-1">
+                                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                    </svg>
+                                    Featured
+                                </span>
+                            ` : ''}
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold leading-tight tracking-tight mb-2 cursor-pointer hover:text-amira-pink transition-colors font-serif" onclick="viewWorkshopDetail('${workshop.id}')">
+                            ${workshop.title}
+                        </h3>
+                        <p class="text-gray-500 text-sm mb-2">with ${workshop.artistName}</p>
+                        <p class="text-gray-500 text-sm mb-8">${workshop.date} • ${workshop.time}</p>
+                        <div class="flex items-center justify-between pt-6 border-t border-gray-100">
+                            <div class="text-xl font-bold tracking-tighter text-amira-pink">£${workshop.price}</div>
+                            ${isOwn ? `
+                                <span class="px-4 py-2.5 bg-amber-50 text-amber-600 text-xs font-bold uppercase tracking-widest rounded">Your Workshop</span>
+                            ` : `
+                                <button onclick="bookWorkshop('${workshop.id}')" 
+                                    ${isFull ? 'disabled' : ''}
+                                    class="px-6 py-2.5 rounded text-xs uppercase tracking-widest font-bold transition-all ${
+                                        isFull 
+                                            ? 'bg-gray-100 text-gray-400' 
+                                            : 'bg-amira-dark text-white hover:bg-amira-pink'
+                                    }">
+                                    ${isFull ? 'Fully Booked' : 'Reserve Spot'}
+                                </button>
+                            `}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createProductCard(product) {
+            const isOwn = state.currentUser?.id === product.artistId;
+            const isSold = product.status === 'sold';
+            
+            return `
+                <div class="card-hover hover-lift bg-white border border-gray-200 rounded overflow-hidden">
+                    <div class="aspect-[4/5] relative overflow-hidden bg-gray-100 cursor-pointer" onclick="viewProductDetail('${product.id}')">
+                        <img src="${product.image}" class="w-full h-full object-cover" alt="${product.title}">
+                        ${product.isBoosted ? `
+                            <div class="absolute top-4 left-4 p-1.5 bg-amira-pink text-white rounded-full shadow-lg">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                            </div>
+                        ` : ''}
+                        ${isSold ? `
+                            <div class="absolute inset-0 bg-white/60 backdrop-blur-sm flex items-center justify-center">
+                                <span class="px-6 py-2 bg-amira-dark text-white text-xs font-bold uppercase tracking-widest rounded -rotate-12">Acquired</span>
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-lg font-bold tracking-tight mb-1 cursor-pointer hover:text-amira-pink" onclick="viewProductDetail('${product.id}')">
+                            ${product.title}
+                        </h4>
+                        <p class="text-xs text-gray-400 font-bold uppercase tracking-widest mb-2">${product.artistName}</p>
+                        <p class="text-xs text-gray-500 mb-6">${product.category}</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold tracking-tighter text-amira-pink">£${product.price}</span>
+                            ${isOwn ? `
+                                <span class="text-xs font-bold uppercase tracking-widest text-amber-500">Your Listing</span>
+                            ` : `
+                                <button onclick="buyProduct('${product.id}')" 
+                                    ${isSold ? 'disabled' : ''}
+                                    class="px-4 py-2 rounded text-xs font-bold uppercase tracking-widest transition-all ${
+                                        isSold ? 'text-gray-300' : 'text-amira-dark hover:text-amira-pink'
+                                    }">
+                                    ${isSold ? 'Sold' : 'Purchase'}
+                                </button>
+                            `}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ============================================
+        // BOOKING FUNCTIONS
+        // ============================================
+        function bookWorkshop(workshopId) {
+            if (!state.currentUser) {
+                openAuthModal('signin');
+                showToast('Please sign in to book workshops', 'warning');
+                return;
+            }
+
+            const workshop = state.workshops.find(w => w.id === workshopId);
+            if (!workshop) return;
+
+            if (workshop.booked >= workshop.capacity) {
+                showToast('This workshop is fully booked', 'error');
+                return;
+            }
+
+            if (state.currentUser.id === workshop.artistId) {
+                showToast('You cannot book your own workshop', 'warning');
+                return;
+            }
+
+            // Create booking
+            const booking = {
+                id: 'b' + Date.now(),
+                userId: state.currentUser.id,
+                itemId: workshopId,
+                type: 'workshop',
+                amount: workshop.price,
+                timestamp: new Date().toISOString()
+            };
+
+            state.bookings.push(booking);
+            saveBookings();
+
+            // Update workshop
+            workshop.booked += 1;
+            saveWorkshops();
+
+            showToast(`Successfully booked ${workshop.title}!`, 'success');
+            renderPage();
+        }
+
+        function buyProduct(productId) {
+            if (!state.currentUser) {
+                openAuthModal('signin');
+                showToast('Please sign in to purchase artworks', 'warning');
+                return;
+            }
+
+            const product = state.products.find(p => p.id === productId);
+            if (!product) return;
+
+            if (product.status === 'sold') {
+                showToast('This artwork has already been sold', 'error');
+                return;
+            }
+
+            if (state.currentUser.id === product.artistId) {
+                showToast('You cannot purchase your own artwork', 'warning');
+                return;
+            }
+
+            // Create booking
+            const booking = {
+                id: 'b' + Date.now(),
+                userId: state.currentUser.id,
+                itemId: productId,
+                type: 'product',
+                amount: product.price,
+                timestamp: new Date().toISOString()
+            };
+
+            state.bookings.push(booking);
+            saveBookings();
+
+            // Update product
+            product.status = 'sold';
+            saveProducts();
+
+            showToast(`Successfully acquired ${product.title}!`, 'success');
+            renderPage();
+        }
+
+        // ============================================
+        // DETAIL VIEWS
+        // ============================================
+        function viewWorkshopDetail(workshopId) {
+            const workshop = state.workshops.find(w => w.id === workshopId);
+            if (!workshop) return;
+            
+            state.selectedWorkshop = workshop;
+            state.currentPage = 'workshop-detail';
+            renderPage();
+        }
+
+        function viewProductDetail(productId) {
+            const product = state.products.find(p => p.id === productId);
+            if (!product) return;
+            
+            state.selectedProduct = product;
+            state.currentPage = 'product-detail';
+            renderPage();
+        }
+
+        function renderWorkshopDetail(container) {
+            const workshop = state.selectedWorkshop;
+            if (!workshop) {
+                navigateTo('workshops');
+                return;
+            }
+
+            const artist = state.users.find(u => u.id === workshop.artistId);
+            const isOwn = state.currentUser?.id === workshop.artistId;
+            const isFull = workshop.booked >= workshop.capacity;
+
+            container.innerHTML = `
+                <div class="max-w-7xl mx-auto px-6 py-20">
+                    <button onclick="navigateTo('workshops')" class="flex items-center gap-2 text-gray-400 font-bold text-xs uppercase tracking-widest mb-10 hover:text-amira-dark transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                        Back to Workshops
+                    </button>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
+                        <div class="rounded-lg overflow-hidden border border-gray-100 bg-gray-50">
+                            <img src="${workshop.image}" class="w-full h-full object-cover" alt="${workshop.title}">
+                        </div>
+
+                        <div class="flex flex-col">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="px-3 py-1 bg-gray-100 text-xs font-bold uppercase tracking-widest rounded-full">
+                                    ${workshop.category}
+                                </span>
+                                ${workshop.isBoosted ? `
+                                    <span class="flex items-center gap-1 text-amira-pink text-xs font-bold uppercase tracking-widest">
+                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                        </svg>
+                                        Featured
+                                    </span>
+                                ` : ''}
+                            </div>
+
+                            <h2 class="text-5xl lg:text-6xl font-bold tracking-tighter mb-6 font-serif">${workshop.title}</h2>
+                            <div class="text-3xl font-bold text-amira-pink mb-6">£${workshop.price}</div>
+
+                            <div class="mb-8 pb-8 border-b border-gray-200">
+                                <p class="text-lg font-medium text-gray-900 mb-4">${workshop.description}</p>
+                                <p class="text-gray-500 leading-relaxed">${workshop.longDescription || 'Join this immersive workshop experience with our master instructors.'}</p>
+                            </div>
+
+                            ${artist ? `
+                                <div class="mb-8 pb-8 border-b border-gray-200">
+                                    <h3 class="text-sm font-bold uppercase tracking-widest text-gray-700 mb-4">Instructor</h3>
+                                    <div class="flex items-start gap-4">
+                                        ${artist.avatar ? `
+                                            <img src="${artist.avatar}" class="w-14 h-14 rounded-full object-cover ring-2 ring-amira-pink ring-offset-2" alt="${artist.name}">
+                                        ` : `
+                                            <div class="w-14 h-14 rounded-full bg-amira-dark flex items-center justify-center text-white font-bold text-lg">
+                                                ${artist.name.charAt(0)}
+                                            </div>
+                                        `}
+                                        <div>
+                                            <h4 class="font-bold text-lg">${artist.name}</h4>
+                                            <p class="text-xs font-bold uppercase tracking-widest text-amira-pink mb-2">Master Artist</p>
+                                            ${artist.bio ? `<p class="text-sm text-gray-500 leading-relaxed italic">${artist.bio}</p>` : ''}
+                                        </div>
+                                    </div>
+                                </div>
+                            ` : ''}
+
+                            <div class="mb-8">
+                                <h3 class="text-sm font-bold uppercase tracking-widest text-gray-700 mb-4">Session Details</h3>
+                                <div class="grid grid-cols-2 gap-4 bg-gray-50 p-6 rounded-lg border border-gray-100">
+                                    <div>
+                                        <span class="block text-xs uppercase font-bold text-gray-400 tracking-widest mb-1">Date</span>
+                                        <span class="font-bold">${workshop.date}</span>
+                                    </div>
+                                    <div>
+                                        <span class="block text-xs uppercase font-bold text-gray-400 tracking-widest mb-1">Time</span>
+                                        <span class="font-bold">${workshop.time}</span>
+                                    </div>
+                                    <div>
+                                        <span class="block text-xs uppercase font-bold text-gray-400 tracking-widest mb-1">Capacity</span>
+                                        <span class="font-bold">${workshop.booked}/${workshop.capacity} Enrolled</span>
+                                    </div>
+                                    <div>
+                                        <span class="block text-xs uppercase font-bold text-gray-400 tracking-widest mb-1">Location</span>
+                                        <span class="font-bold">${workshop.location || 'Shoreditch Studio'}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-auto">
+                                ${isOwn ? `
+                                    <div class="w-full py-5 bg-amber-50 text-amber-700 text-center text-sm font-semibold rounded-lg border border-amber-200">
+                                        This is your own workshop. Manage it from your dashboard.
+                                    </div>
+                                ` : `
+                                    <button onclick="bookWorkshop('${workshop.id}')" 
+                                        ${isFull ? 'disabled' : ''}
+                                        class="w-full py-5 ${isFull ? 'bg-gray-300 cursor-not-allowed' : 'bg-amira-dark hover:bg-amira-pink'} text-white text-xs font-bold uppercase tracking-widest rounded transition-all shadow-2xl">
+                                        ${isFull ? 'Workshop Fully Booked' : 'Secure Enrollment'}
+                                    </button>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderProductDetail(container) {
+            const product = state.selectedProduct;
+            if (!product) {
+                navigateTo('gallery');
+                return;
+            }
+
+            const artist = state.users.find(u => u.id === product.artistId);
+            const isOwn = state.currentUser?.id === product.artistId;
+            const isSold = product.status === 'sold';
+
+            container.innerHTML = `
+                <div class="max-w-7xl mx-auto px-6 py-20">
+                    <button onclick="navigateTo('gallery')" class="flex items-center gap-2 text-gray-400 font-bold text-xs uppercase tracking-widest mb-10 hover:text-amira-dark transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                        Back to Gallery
+                    </button>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
+                        <div class="rounded-lg overflow-hidden border border-gray-100 bg-gray-50">
+                            <img src="${product.image}" class="w-full h-full object-cover" alt="${product.title}">
+                        </div>
+
+                        <div class="flex flex-col">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="px-3 py-1 bg-gray-100 text-xs font-bold uppercase tracking-widest rounded-full">
+                                    ${product.category}
+                                </span>
+                                ${product.isBoosted ? `
+                                    <span class="flex items-center gap-1 text-amira-pink text-xs font-bold uppercase tracking-widest">
+                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                        </svg>
+                                        Featured
+                                    </span>
+                                ` : ''}
+                                <span class="status-badge ${isSold ? 'status-sold' : 'status-available'}">
+                                    ${isSold ? 'Sold' : 'Available'}
+                                </span>
+                            </div>
+
+                            <h2 class="text-5xl lg:text-6xl font-bold tracking-tighter mb-6 font-serif">${product.title}</h2>
+                            <div class="text-3xl font-bold text-amira-pink mb-6">£${product.price}</div>
+
+                            <div class="mb-8 pb-8 border-b border-gray-200">
+                                <p class="text-lg font-medium text-gray-900">${product.description}</p>
+                            </div>
+
+                            ${artist ? `
+                                <div class="mb-8 pb-8 border-b border-gray-200">
+                                    <h3 class="text-sm font-bold uppercase tracking-widest text-gray-700 mb-4">Artist</h3>
+                                    <div class="flex items-start gap-4">
+                                        ${artist.avatar ? `
+                                            <img src="${artist.avatar}" class="w-14 h-14 rounded-full object-cover ring-2 ring-amira-pink ring-offset-2" alt="${artist.name}">
+                                        ` : `
+                                            <div class="w-14 h-14 rounded-full bg-amira-dark flex items-center justify-center text-white font-bold text-lg">
+                                                ${artist.name.charAt(0)}
+                                            </div>
+                                        `}
+                                        <div>
+                                            <h4 class="font-bold text-lg">${artist.name}</h4>
+                                            <p class="text-xs font-bold uppercase tracking-widest text-amira-pink mb-2">Resident Artist</p>
+                                            ${artist.bio ? `<p class="text-sm text-gray-500 leading-relaxed italic">${artist.bio}</p>` : ''}
+                                        </div>
+                                    </div>
+                                </div>
+                            ` : ''}
+
+                            <div class="mt-auto">
+                                ${isOwn ? `
+                                    <div class="w-full py-5 bg-amber-50 text-amber-700 text-center text-sm font-semibold rounded-lg border border-amber-200">
+                                        This is your own listing. Manage it from your dashboard.
+                                    </div>
+                                ` : `
+                                    <button onclick="buyProduct('${product.id}')" 
+                                        ${isSold ? 'disabled' : ''}
+                                        class="w-full py-5 ${isSold ? 'bg-gray-300 cursor-not-allowed' : 'bg-amira-dark hover:bg-amira-pink'} text-white text-xs font-bold uppercase tracking-widest rounded transition-all shadow-2xl">
+                                        ${isSold ? 'Artwork Sold' : 'Acquire Original Work'}
+                                    </button>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ============================================
+        // AUTH FUNCTIONS
+        // ============================================
+        function openAuthModal(mode = 'signin') {
+            document.getElementById('auth-modal').classList.remove('hidden');
+            switchAuthMode(mode);
+        }
+
+        function closeAuthModal() {
+            document.getElementById('auth-modal').classList.add('hidden');
+        }
+
+        function switchAuthMode(mode) {
+            const signinForm = document.getElementById('signin-form');
+            const signupForm = document.getElementById('signup-form');
+            const modalTitle = document.getElementById('auth-modal-title');
+
+            if (mode === 'signin') {
+                signinForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                modalTitle.textContent = 'Sign In';
+            } else {
+                signinForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+                modalTitle.textContent = 'Join AmiraArts';
+            }
+        }
+
+        function updateAuthUI() {
+            const loggedOut = document.getElementById('auth-buttons-logged-out');
+            const loggedIn = document.getElementById('auth-buttons-logged-in');
+
+            if (state.currentUser) {
+                loggedOut.classList.add('hidden');
+                loggedIn.classList.remove('hidden');
+                loggedIn.classList.add('flex');
+            } else {
+                loggedOut.classList.remove('hidden');
+                loggedIn.classList.add('hidden');
+                loggedIn.classList.remove('flex');
+            }
+        }
+
+        function logout() {
+            state.currentUser = null;
+            sessionStorage.removeItem('amiraarts_session');
+            updateAuthUI();
+            navigateTo('home');
+            showToast('You have been signed out', 'info');
+        }
+
+        // ============================================
+        // TOAST NOTIFICATIONS
+        // ============================================
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const id = 'toast-' + Date.now();
+            
+            const colors = {
+                success: 'bg-emerald-50 border-emerald-400 text-emerald-800',
+                warning: 'bg-amber-50 border-amber-400 text-amber-900',
+                error: 'bg-red-50 border-red-400 text-red-800',
+                info: 'bg-blue-50 border-blue-400 text-blue-800'
+            };
+
+            const icons = {
+                success: '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>',
+                warning: '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>',
+                error: '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>',
+                info: '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>'
+            };
+
+            toast.id = id;
+            toast.className = `${colors[type]} border-l-4 p-4 rounded shadow-lg flex items-center gap-3 min-w-[320px] max-w-md`;
+            toast.innerHTML = `
+                <div class="shrink-0">${icons[type]}</div>
+                <p class="flex-1 text-sm font-medium">${message}</p>
+                <button onclick="this.parentElement.remove()" class="shrink-0 p-1 rounded hover:bg-black/5 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 5000);
+        }
+
+        // ============================================
+        // CREATE/EDIT FUNCTIONS
+        // ============================================
+        function createNewWorkshop() {
+            showToast('Workshop creation feature coming soon!', 'info');
+        }
+
+        function editWorkshop(workshopId) {
+            showToast('Workshop editing feature coming soon!', 'info');
+        }
+
+        function createNewProduct() {
+            showToast('Product creation feature coming soon!', 'info');
+        }
+
+        function editProduct(productId) {
+            showToast('Product editing feature coming soon!', 'info');
+        }
+
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize data
+            initializeData();
+
+            // Render initial page
+            renderPage();
+
+            // Initialize stagger animations on scroll
+            initializeScrollAnimations();
+
+            // Mobile menu toggle
+            document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.toggle('hidden');
+            });
+
+            // Sign in form
+            document.getElementById('signin-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('signin-email').value;
+                const password = document.getElementById('signin-password').value;
+
+                const user = state.users.find(u => u.email === email && u.password === password);
+                
+                if (user) {
+                    state.currentUser = user;
+                    sessionStorage.setItem('amiraarts_session', JSON.stringify(user));
+                    updateAuthUI();
+                    closeAuthModal();
+                    showToast(`Welcome back, ${user.name}!`, 'success');
+                    navigateTo('dashboard');
+                } else {
+                    showToast('Invalid email or password', 'error');
+                }
+            });
+
+            // Sign up form
+            document.getElementById('signup-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('signup-name').value;
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                const role = document.getElementById('signup-role').value;
+
+                // Check if email already exists
+                if (state.users.find(u => u.email === email)) {
+                    showToast('Email already registered', 'error');
+                    return;
+                }
+
+                // Create new user
+                const newUser = {
+                    id: 'u' + Date.now(),
+                    name,
+                    email,
+                    password,
+                    role,
+                    bio: ''
+                };
+
+                state.users.push(newUser);
+                saveUsers();
+
+                state.currentUser = newUser;
+                sessionStorage.setItem('amiraarts_session', JSON.stringify(newUser));
+                updateAuthUI();
+                closeAuthModal();
+                showToast(`Welcome to AmiraArts, ${name}!`, 'success');
+                navigateTo('dashboard');
+            });
+
+            // Close modal on background click
+            document.getElementById('auth-modal').addEventListener('click', (e) => {
+                if (e.target.id === 'auth-modal') {
+                    closeAuthModal();
+                }
+            });
+        });
+
+        // ============================================
+        // SCROLL ANIMATIONS
+        // ============================================
+        function initializeScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all stagger items
+            document.querySelectorAll('.stagger-item').forEach(item => {
+                observer.observe(item);
+            });
+        }
+
+        // Re-initialize animations on page change
+        const originalRenderPage = renderPage;
+        renderPage = function() {
+            originalRenderPage();
+            setTimeout(() => {
+                initializeScrollAnimations();
+            }, 100);
+        };
+    </script>
+</body>
+</html>
+
