@@ -15,6 +15,28 @@ London's premiere boutique studio for fine art education and original curation.
 - ✅ SEO optimized
 - ✅ WCAG AA accessible
 
+## File Structure
+amiraarts/
+├── index.html              ← Main application (all-in-one)
+├── netlify.toml           ← Netlify configuration
+├── _redirects             ← SPA routing
+├── _headers               ← Security headers
+├── robots.txt             ← SEO crawlers
+├── sitemap.xml            ← SEO sitemap
+├── manifest.json          ← PWA manifest
+├── sw.js                  ← Service worker
+├── README.md              ← Documentation
+├── .gitignore             ← Git ignore rules
+└── icons/                 ← PWA icons (create these)
+    ├── icon-72.png
+    ├── icon-96.png
+    ├── icon-128.png
+    ├── icon-144.png
+    ├── icon-152.png
+    ├── icon-192.png
+    ├── icon-384.png
+    └── icon-512.png
+
 ## Tech Stack
 - Pure HTML/CSS/JavaScript
 - Tailwind CSS (CDN)
