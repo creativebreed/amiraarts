@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://amiraarts.co.uk/sitemap.xml
+
+# Disallow admin areas
+Disallow: /dashboard
+Disallow: /admin
+
+# Allow workshop and gallery pages
+Allow: /workshops
+Allow: /gallery
+Allow: /about
